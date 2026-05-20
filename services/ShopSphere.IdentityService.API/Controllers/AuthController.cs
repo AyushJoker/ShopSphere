@@ -20,26 +20,20 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Register(
         RegisterRequestDto request)
     {
-        var token =
+        var response =
             await _authService.RegisterAsync(request);
 
-        return Ok(new
-        {
-            Token = token
-        });
+        return Ok(response);
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login(
         LoginRequestDto request)
     {
-        var token =
+        var response =
             await _authService.LoginAsync(request);
 
-        return Ok(new
-        {
-            Token = token
-        });
+        return Ok(response);
     }
    [Authorize]
     [HttpGet("me")]
