@@ -1,0 +1,6 @@
+@ShopSphere.IdentityService.API_HostAddress = http://localhost:5165
+
+GET {{ShopSphere.IdentityService.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
