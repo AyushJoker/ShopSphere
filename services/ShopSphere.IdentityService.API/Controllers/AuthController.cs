@@ -1,0 +1,72 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using ShopSphere.IdentityService.Application.DTOs;
+using ShopSphere.IdentityService.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+namespace ShopSphere.IdentityService.API.Controllers;
+
+[ApiController]
+[Route("api/auth")]
+public class AuthController : ControllerBase
+{
+    private readonly IAuthService _authService;
+
+    public AuthController(IAuthService authService)
+    {
+        _authService = authService;
+    }
+
+    [HttpPost("register")]
+    public async Task<IActionResult> Register(
+        RegisterRequestDto request)
+    {
+        var token =
+            await _authService.RegisterAsync(request);
+
+        return Ok(new
+        {
+            Token = token
+        });
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(
+        LoginRequestDto request)
+    {
+        var token =
+            await _authService.LoginAsync(request);
+
+        return Ok(new
+        {
+            Token = token
+        });
+    }
+   [Authorize]
+    [HttpGet("me")]
+    public IActionResult GetCurrentUser()
+    {
+        var email =
+            User.FindFirst(ClaimTypes.Email)?.Value;
+
+        var firstName =
+            User.FindFirst(ClaimTypes.GivenName)?.Value;
+
+        return Ok(new
+        {
+            Email = email,
+            FirstName = firstName
+        });
+    }
+    [Authorize(Roles = "Admin")]
+    [HttpGet("admin-only")]
+    public IActionResult AdminOnly()
+    {
+        return Ok("Welcome Admin");
+    }
+    [Authorize(Roles = "User")]
+    [HttpGet("user-only")]
+    public IActionResult UserOnly()
+    {
+        return Ok("Welcome User");
+    }
+}
