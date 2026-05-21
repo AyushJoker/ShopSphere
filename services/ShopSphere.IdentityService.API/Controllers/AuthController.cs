@@ -73,4 +73,45 @@ public class AuthController : ControllerBase
 
         return Ok(response);
     }
+
+    [Authorize]
+    [HttpGet("profile")]
+    public async Task<IActionResult> GetProfile()
+    {
+        var userId =
+            User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Unauthorized();
+        }
+
+        var profile =
+            await _authService.GetProfileAsync(
+                Guid.Parse(userId));
+
+        return Ok(profile);
+    }
+    [Authorize]
+    [HttpPut("profile")]
+    public async Task<IActionResult> UpdateProfile(UpdateProfileDto request)
+    {
+        var userId =
+            User.FindFirstValue(
+                ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Unauthorized();
+        }
+
+        await _authService.UpdateProfileAsync(
+            Guid.Parse(userId),
+            request);
+
+        return Ok(new
+        {
+            Message = "Profile updated successfully"
+        });
+    }
 }

@@ -1,8 +1,9 @@
-﻿using BCrypt.Net;
-using ShopSphere.IdentityService.Application.DTOs;
+﻿using ShopSphere.IdentityService.Application.DTOs;
 using ShopSphere.IdentityService.Application.Interfaces;
 using ShopSphere.IdentityService.Domain.Entities;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Caching.Distributed;
+using System.Text.Json;
 
 namespace ShopSphere.IdentityService.Application.Services;
 
@@ -13,17 +14,20 @@ public class AuthService : IAuthService
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IRefreshTokenGenerator _refreshTokenGenerator;
     private readonly IRefreshTokenRepository _refreshTokenRepository;
+    private readonly IDistributedCache _cache;
     public AuthService(
         IUserRepository userRepository,
         IJwtTokenGenerator jwtTokenGenerator,
         IRefreshTokenGenerator refreshTokenGenerator,
         IRefreshTokenRepository refreshTokenRepository,
+        IDistributedCache cache,
          ILogger<AuthService> logger)
     {
         _userRepository = userRepository;
         _jwtTokenGenerator = jwtTokenGenerator;
         _refreshTokenGenerator = refreshTokenGenerator;
         _refreshTokenRepository = refreshTokenRepository;
+        _cache = cache;
         _logger = logger;
     }
 
@@ -90,6 +94,63 @@ public class AuthService : IAuthService
 
         return await GenerateAuthResponseAsync(user);
    
+    }
+    public async Task<UserProfileDto> GetProfileAsync(Guid userId)
+    {
+        var cacheKey = $"user_profile_{userId}";
+
+        // STEP 1
+        // Check Redis cache
+        var cachedUser =
+            await _cache.GetStringAsync(cacheKey);
+
+        if (!string.IsNullOrEmpty(cachedUser))
+        {
+            _logger.LogInformation(
+                "User profile fetched from Redis cache");
+
+            return JsonSerializer.Deserialize<UserProfileDto>(
+                cachedUser)!;
+        }
+
+        // STEP 2
+        // Fetch from DB
+        var user =
+            await _userRepository.GetUserByIdAsync(userId);
+
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
+
+        var userProfile = new UserProfileDto
+        {
+            Email = user.Email,
+
+            FullName =
+                $"{user.FirstName} {user.LastName}",
+
+            Role = user.Role
+        };
+
+        // STEP 3
+        // Store in Redis
+        var cacheOptions =
+            new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow =
+                    TimeSpan.FromMinutes(5)
+            };
+
+        await _cache.SetStringAsync(
+            cacheKey,
+            JsonSerializer.Serialize(userProfile),
+            cacheOptions);
+
+        _logger.LogInformation(
+            "User profile stored in Redis cache");
+
+        return userProfile;
     }
     public async Task<AuthResponse> RefreshTokenAsync(RefreshTokenRequestDto request)
     {
@@ -171,5 +232,30 @@ public class AuthService : IAuthService
             FullName =
                 $"{user.FirstName} {user.LastName}"
         };
+    }
+    public async Task UpdateProfileAsync(Guid userId,UpdateProfileDto request)
+    {
+        var user =
+            await _userRepository.GetUserByIdAsync(userId);
+
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
+
+        user.FirstName = request.FirstName;
+
+        user.LastName = request.LastName;
+
+        await _userRepository.SaveChangesAsync();
+
+        // REMOVE OLD CACHE
+        var cacheKey = $"user_profile_{userId}";
+
+        await _cache.RemoveAsync(cacheKey);
+
+        _logger.LogInformation(
+            "User profile cache invalidated for user: {UserId}",
+            userId);
     }
 }

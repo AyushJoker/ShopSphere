@@ -8,4 +8,6 @@ public interface IAuthService
 
     Task<AuthResponse> LoginAsync(LoginRequestDto request);
     Task<AuthResponse> RefreshTokenAsync(RefreshTokenRequestDto request);
+    Task<UserProfileDto> GetProfileAsync(Guid userId);
+    Task UpdateProfileAsync(Guid userId,UpdateProfileDto request);
 }
