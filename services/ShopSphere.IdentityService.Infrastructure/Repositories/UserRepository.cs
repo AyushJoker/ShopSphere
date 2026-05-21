@@ -17,7 +17,7 @@ public class UserRepository : IUserRepository
     public async Task<User?> GetUserByEmailAsync(string email)
     {
         return await _context.Users
-            .FirstOrDefaultAsync(x => x.Email == email);
+            .FirstOrDefaultAsync(x => x.Email.ToLower() == email);
     }
     public async Task<User?> GetUserByIdAsync(Guid id)
     {

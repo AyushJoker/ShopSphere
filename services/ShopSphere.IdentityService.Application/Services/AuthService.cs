@@ -29,6 +29,7 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponse> RegisterAsync(RegisterRequestDto request)
     {
+        request.Email = request.Email.Trim().ToLower();
         _logger.LogInformation("Register attempt for email: {Email}",request.Email);
         var existingUser =
             await _userRepository.GetUserByEmailAsync(request.Email);
@@ -39,8 +40,7 @@ public class AuthService : IAuthService
             throw new Exception("User already exists");
         }
 
-        var hashedPassword =
-             BCrypt.Net.BCrypt.HashPassword(request.Password);
+        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
         var user = new User
         {
@@ -58,39 +58,13 @@ public class AuthService : IAuthService
 
         _logger.LogInformation("User registered successfully: {Email}", user.Email);
 
-        var token = _jwtTokenGenerator.GenerateToken(user.Id, user.Email,user.FirstName,user.Role);
-
-        var refreshToken = _refreshTokenGenerator.Generate();
-
-        var refreshTokenEntity = new RefreshToken
-        {
-            Token = refreshToken,
-
-            ExpiryDate = DateTime.UtcNow.AddDays(7),
-
-            UserId = user.Id,
-
-            IsRevoked = false
-        };
-        await _refreshTokenRepository.AddAsync(refreshTokenEntity);
-
-        await _refreshTokenRepository.SaveChangesAsync();
-
-        return new AuthResponse
-        {
-            Token = token,
-
-            RefreshToken = refreshToken,
-
-            Email = user.Email,
-
-            FullName = $"{user.FirstName} {user.LastName}"
-        };
+        return await GenerateAuthResponseAsync(user);
 
     }
 
     public async Task<AuthResponse> LoginAsync(LoginRequestDto request)
     {
+        request.Email = request.Email.Trim().ToLower();
         _logger.LogInformation("Login attempt for email: {Email}", request.Email);
         var user =
             await _userRepository.GetUserByEmailAsync(request.Email);
@@ -111,37 +85,11 @@ public class AuthService : IAuthService
             _logger.LogWarning("Invalid login attempt for email: {Email}", request.Email);
             throw new Exception("Invalid credentials");
         }
+
         _logger.LogInformation("User logged in successfully: {Email}",user.Email);
 
-        var token = _jwtTokenGenerator.GenerateToken(user.Id, user.Email, user.FirstName, user.Role);
-
-        var refreshToken = _refreshTokenGenerator.Generate();
-
-        var refreshTokenEntity = new RefreshToken
-        {
-            Token = refreshToken,
-
-            ExpiryDate = DateTime.UtcNow.AddDays(7),
-
-            UserId = user.Id,
-
-            IsRevoked = false
-        };
-
-        await _refreshTokenRepository.AddAsync(refreshTokenEntity);
-
-        await _refreshTokenRepository.SaveChangesAsync();
-
-        return new AuthResponse
-        {
-            Token = token,
-
-            RefreshToken = refreshToken,
-
-            Email = user.Email,
-
-            FullName = $"{user.FirstName} {user.LastName}"
-        };
+        return await GenerateAuthResponseAsync(user);
+   
     }
     public async Task<AuthResponse> RefreshTokenAsync(RefreshTokenRequestDto request)
     {
@@ -176,21 +124,28 @@ public class AuthService : IAuthService
         // revoke old refresh token
         existingRefreshToken.IsRevoked = true;
 
-        // generate new access token
-        var newAccessToken =
+        await _refreshTokenRepository.SaveChangesAsync();
+
+        return await GenerateAuthResponseAsync(user);
+    
+    }
+
+
+    private async Task<AuthResponse> GenerateAuthResponseAsync(User user)
+    {
+        var token =
             _jwtTokenGenerator.GenerateToken(
                 user.Id,
                 user.Email,
                 user.FirstName,
                 user.Role);
 
-        // generate new refresh token
-        var newRefreshToken =
+        var refreshToken =
             _refreshTokenGenerator.Generate();
 
         var refreshTokenEntity = new RefreshToken
         {
-            Token = newRefreshToken,
+            Token = refreshToken,
 
             ExpiryDate = DateTime.UtcNow.AddDays(7),
 
@@ -207,9 +162,9 @@ public class AuthService : IAuthService
 
         return new AuthResponse
         {
-            Token = newAccessToken,
+            Token = token,
 
-            RefreshToken = newRefreshToken,
+            RefreshToken = refreshToken,
 
             Email = user.Email,
 
