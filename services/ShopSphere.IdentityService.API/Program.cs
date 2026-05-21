@@ -37,6 +37,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IRefreshTokenGenerator,RefreshTokenGenerator>();
+builder.Services.AddScoped<IRefreshTokenRepository,RefreshTokenRepository>();
 
 builder.Services.AddAuthentication(
     JwtBearerDefaults.AuthenticationScheme)

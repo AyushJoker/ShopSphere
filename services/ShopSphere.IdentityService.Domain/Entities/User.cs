@@ -13,4 +13,6 @@ public class User
     public string Role { get; set; } = "User";
 
     public string PasswordHash { get; set; } = string.Empty;
+    public ICollection<RefreshToken> RefreshTokens { get; set; }
+    = new List<RefreshToken>();
 }
