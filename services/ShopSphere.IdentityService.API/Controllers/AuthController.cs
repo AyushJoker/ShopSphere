@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using ShopSphere.IdentityService.Application.DTOs;
 using ShopSphere.IdentityService.Application.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 namespace ShopSphere.IdentityService.API.Controllers;
 
@@ -26,6 +27,7 @@ public class AuthController : ControllerBase
         return Ok(response);
     }
 
+    [EnableRateLimiting("login-policy")]
     [HttpPost("login")]
     public async Task<IActionResult> Login(
         LoginRequestDto request)
