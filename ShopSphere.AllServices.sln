@@ -17,6 +17,28 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopSphere.IdentityService.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopSphere.ApiGateway", "services\ShopSphere.ApiGateway\ShopSphere.ApiGateway.csproj", "{EE3F793B-3BF3-431B-9267-EE17ABF63DAE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		docker\docker-compose.yml = docker\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{FC46F368-7268-469A-A882-359109530333}"
+	ProjectSection(SolutionItems) = preProject
+		docs\DevelopmentProgress.md = docs\DevelopmentProgress.md
+		docs\ProjectOverview.md = docs\ProjectOverview.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "architecture", "architecture", "{468BA359-DF77-43DC-90FC-C125108B9913}"
+	ProjectSection(SolutionItems) = preProject
+		architecture\CleanArchitecture.md = architecture\CleanArchitecture.md
+		architecture\FolderStructure.md = architecture\FolderStructure.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,5 +120,8 @@ Global
 		{38A10310-CD10-47DD-9056-CDBDBF056E57} = {DD206F60-1FAF-ED75-6FA2-9D7982884EA4}
 		{36644C84-368E-4035-8B53-5F5C73AD4501} = {DD206F60-1FAF-ED75-6FA2-9D7982884EA4}
 		{EE3F793B-3BF3-431B-9267-EE17ABF63DAE} = {5854FF58-B8C5-05C6-5BF2-ACE42193F22B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B6268502-EC49-45B7-8A17-CF931D663673}
 	EndGlobalSection
 EndGlobal
