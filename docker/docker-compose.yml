@@ -1,0 +1,44 @@
+services:
+
+  shopsphere-gateway:
+    container_name: shopsphere-gateway
+
+    build:
+      context: ../services
+      dockerfile: ShopSphere.ApiGateway/Dockerfile
+
+    ports:
+      - "7000:8080"
+
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ReverseProxy__Clusters__identityCluster__Destinations__destination1__Address=http://shopsphere-api:8080/
+
+    depends_on:
+      - shopsphere-api
+
+  shopsphere-api:
+    container_name: shopsphere-api
+
+    build:
+      context: ../services/IdentityService
+      dockerfile: ShopSphere.IdentityService.API/Dockerfile
+
+    ports:
+      - "5000:8080"
+
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=host.docker.internal,1433;Database=ShopSphereIdentityDb;User Id=sa;Password=YourStrong@123;TrustServerCertificate=True
+      - Redis__ConnectionString=shopsphere-redis:6379
+
+    depends_on:
+      - shopsphere-redis
+
+  shopsphere-redis:
+    image: redis:7-alpine
+
+    container_name: shopsphere-redis
+
+    ports:
+      - "6379:6379"

@@ -1,0 +1,43 @@
+Phase,Phase_Name,Task,Category,Status,Priority,Effort_Days,Depends_On,Notes
+1,Foundation,Solution & repo setup,Setup,Done,High,0.5,—,
+1,Foundation,Clean Architecture scaffolding,Architecture,Done,High,1,Solution setup,API/App/Domain/Infra layers
+1,Foundation,Identity Service setup,Service,Done,High,1,Clean Arch,
+1,Foundation,JWT Authentication,Auth,Done,High,1,Identity Service,Claims-based tokens
+1,Foundation,Refresh Tokens,Auth,Done,High,0.5,JWT Auth,Token rotation + revocation
+1,Foundation,Exception Middleware,Infrastructure,Done,High,0.5,Identity Service,Centralized error handling
+1,Foundation,Serilog Logging,Infrastructure,Done,Medium,0.5,Identity Service,File + request + auth logs
+1,Foundation,Redis Caching,Infrastructure,Done,Medium,0.5,Identity Service,Profile caching
+1,Foundation,Docker + docker-compose,DevOps,Done,High,1,All services ready,"3 containers: api, gateway, redis"
+1,Foundation,API Gateway (YARP),Infrastructure,Done,High,0.5,Docker setup,Route /identity/* to api
+2,Product Service,Product Service scaffold,Service,Next,High,2,Phase 1 done,Mirror IdentityService 4-layer structure
+2,Product Service,Product entity & domain model,Domain,Next,High,0.5,Scaffold,Name Price Stock Category etc.
+2,Product Service,Product CRUD - Create,Feature,Todo,High,0.5,Domain model,
+2,Product Service,Product CRUD - Read/List,Feature,Todo,High,0.5,Create endpoint,Include pagination
+2,Product Service,Product CRUD - Update & Delete,Feature,Todo,High,0.5,Read endpoint,
+2,Product Service,FluentValidation for Product,Feature,Todo,Medium,0.5,CRUD,
+2,Product Service,Redis caching for products,Feature,Todo,Medium,1,CRUD done,"Cache GET, invalidate on write"
+2,Product Service,Swagger / OpenAPI docs,Docs,Todo,Medium,0.5,CRUD,
+2,Product Service,Dockerize Product Service,DevOps,Todo,High,0.5,Service complete,Add to docker-compose
+2,Product Service,YARP gateway route /product/*,Infrastructure,Todo,High,0.5,Docker done,
+3,Order Service,Order Service scaffold,Service,Todo,High,1,Product Service done,
+3,Order Service,Order creation workflow,Feature,Todo,High,2,Scaffold,
+3,Order Service,Inventory validation,Feature,Todo,High,1,Order workflow,Calls Product Service
+3,Order Service,Service-to-service HTTP client,Architecture,Todo,High,1,Both services running,IHttpClientFactory pattern
+3,Order Service,Saga pattern research & PoC,Architecture,Todo,Medium,2,Distributed txn needed,Choreography vs Orchestration
+3,Order Service,Dockerize Order Service,DevOps,Todo,High,0.5,Service complete,
+3,Order Service,YARP gateway route /order/*,Infrastructure,Todo,High,0.5,Docker done,
+4,Advanced Backend,RabbitMQ or Kafka PoC,Messaging,Todo,High,2,Order Service,Start with RabbitMQ
+4,Advanced Backend,Health check endpoints,Infrastructure,Todo,Medium,0.5,Services running,/health on all services
+4,Advanced Backend,API versioning,Feature,Todo,Medium,0.5,Services stable,
+4,Advanced Backend,Distributed logging - ELK,Observability,Todo,Medium,2,All services,Elasticsearch + Kibana
+4,Advanced Backend,Prometheus metrics,Observability,Todo,Medium,1,Health checks,
+4,Advanced Backend,Grafana dashboards,Observability,Todo,Low,1,Prometheus,
+4,Advanced Backend,OpenTelemetry tracing,Observability,Todo,Medium,1,Prometheus,End-to-end distributed traces
+5,Cloud & DevOps,GitHub Actions CI pipeline,DevOps,Todo,High,1,Services stable,Build + unit tests on PR
+5,Cloud & DevOps,GitHub Actions CD pipeline,DevOps,Todo,High,1,CI done,Deploy on merge
+5,Cloud & DevOps,Kubernetes local PoC (minikube),DevOps,Todo,High,3,Docker compose working,
+5,Cloud & DevOps,Kubernetes deployment manifests,DevOps,Todo,High,2,minikube PoC,Pods Services Ingress
+5,Cloud & DevOps,Azure or AWS deployment,Cloud,Todo,High,3,K8s manifests,
+5,Cloud & DevOps,Production environment setup,Cloud,Todo,High,1,Cloud deployed,Secrets env config
+6,Frontend,shopsphere-web React app,Frontend,Todo,Medium,—,All backend done,Customer-facing UI
+6,Frontend,shopsphere-admin dashboard,Frontend,Todo,Medium,—,All backend done,Admin UI

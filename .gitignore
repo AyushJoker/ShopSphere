@@ -1,5 +1,26 @@
+# Build folders
 bin/
 obj/
+
+# Visual Studio
 .vs/
+
+# User-specific files
 *.user
 *.suo
+
+# Rider
+.idea/
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# Docker
+docker-data/
+
+# OS
+.DS_Store
+Thumbs.db
