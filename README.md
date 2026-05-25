@@ -160,6 +160,7 @@ http://localhost:7000/identity/swagger/index.html
 # Current Features
 
 - JWT Authentication
+- API Rate Limiting
 - Refresh Tokens
 - Redis Caching
 - Dockerized Services
