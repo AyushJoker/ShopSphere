@@ -110,12 +110,13 @@ public class ProductService : IProductService
         };
     }
 
-    public async Task<List<ProductResponseDto>> GetAllAsync()
+    public async Task<PagedResponse<ProductResponseDto>> GetAllAsync(ProductQueryParameters parameters)
     {
-        var products = await _productRepository
-            .GetAllAsync();
+        var (products, totalCount) =
+            await _productRepository
+                .GetAllAsync(parameters);
 
-        return products.Select(product =>
+        var items = products.Select(product =>
             new ProductResponseDto
             {
                 Id = product.Id,
@@ -125,5 +126,13 @@ public class ProductService : IProductService
                 StockQuantity = product.StockQuantity,
                 CategoryName = product.Category.Name
             }).ToList();
+
+        return new PagedResponse<ProductResponseDto>
+        {
+            Items = items,
+            PageNumber = parameters.PageNumber,
+            PageSize = parameters.PageSize,
+            TotalCount = totalCount
+        };
     }
 }
