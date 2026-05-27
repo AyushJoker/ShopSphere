@@ -36,6 +36,17 @@ Handles:
 - User Profile APIs
 - Redis Caching
 
+## Product Service
+
+Handles:
+- Product CRUD
+- Category Management
+- Pagination
+- Filtering
+- Searching
+- Dynamic Sorting
+- FluentValidation
+
 ---
 
 ## API Gateway
@@ -56,6 +67,7 @@ Responsibilities:
 - .NET 9
 - ASP.NET Core Web API
 - Entity Framework Core
+- FluentValidation
 
 ## Database
 - SQL Server
@@ -77,6 +89,7 @@ Responsibilities:
 ---
 
 # Architecture
+The project emphasizes production-style backend development patterns and scalable service separation.
 
 The project follows:
 - Microservices Architecture
@@ -102,6 +115,13 @@ ShopSphere
 │   │   ├── ShopSphere.IdentityService.Domain
 │   │   └── ShopSphere.IdentityService.Infrastructure
 │   │
+│   ├── ProductService
+│   │   ├── ShopSphere.ProductService.sln
+│   │   ├── ShopSphere.ProductService.API
+│   │   ├── ShopSphere.ProductService.Application
+│   │   ├── ShopSphere.ProductService.Domain
+│   │   └── ShopSphere.ProductService.Infrastructure
+│   │
 │   └── ShopSphere.ApiGateway
 │
 ├── docker
@@ -110,7 +130,6 @@ ShopSphere
 ├── architecture
 └── .github
 ```
-
 ---
 
 # Running the Project
@@ -141,6 +160,8 @@ docker compose up --build
 
 # Service URLs
 
+# Service URLs
+
 ## Identity Service Swagger
 
 ```text
@@ -149,12 +170,27 @@ http://localhost:5000/swagger/index.html
 
 ---
 
-## Gateway Swagger
+## Product Service Swagger
+
+```text
+http://localhost:5001/swagger/index.html
+```
+
+---
+
+## Gateway Identity Swagger
 
 ```text
 http://localhost:7000/identity/swagger/index.html
 ```
 
+---
+
+## Gateway Product Swagger
+
+```text
+http://localhost:7000/products/swagger/index.html
+```
 ---
 
 # Current Features
@@ -168,13 +204,19 @@ http://localhost:7000/identity/swagger/index.html
 - Global Exception Handling
 - Request Logging
 - Role-based Authorization
+- Product CRUD
+- Pagination
+- Searching
+- Filtering
+- Dynamic Sorting
+- FluentValidation
 
 ---
 
 # Upcoming Features
 
-- Product Service
 - Order Service
+- Inventory Service
 - RabbitMQ
 - OpenTelemetry
 - Grafana
