@@ -9,6 +9,7 @@ public interface IProductRepository
     Task<Product?> GetByIdAsync(Guid id);
 
     Task<List<Product>> GetAllAsync();
+    Task DeleteAsync(Product product);
 
     Task SaveChangesAsync();
 }
