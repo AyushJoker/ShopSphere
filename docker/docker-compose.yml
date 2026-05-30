@@ -13,9 +13,29 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ReverseProxy__Clusters__identityCluster__Destinations__destination1__Address=http://shopsphere-api:8080/
+      - ReverseProxy__Clusters__productCluster__Destinations__destination1__Address=http://shopsphere-product-api:8080/
 
     depends_on:
       - shopsphere-api
+      - shopsphere-product-api
+
+  shopsphere-product-api:
+    container_name: shopsphere-product-api
+
+    build:
+        context: ../services/ProductService
+        dockerfile: ShopSphere.ProductService.API/Dockerfile
+
+    ports:
+        - "5001:8080"
+
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ConnectionStrings__DefaultConnection=Server=host.docker.internal,1433;Database=ShopSphereProductDb;User Id=sa;Password=YourStrong@123;TrustServerCertificate=True
+        - Redis__ConnectionString=shopsphere-redis:6379
+
+    depends_on:
+        - shopsphere-redis
 
   shopsphere-api:
     container_name: shopsphere-api

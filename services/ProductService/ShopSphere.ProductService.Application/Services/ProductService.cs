@@ -7,15 +7,14 @@ namespace ShopSphere.ProductService.Application.Services;
 public class ProductService : IProductService
 {
     private readonly IProductRepository _productRepository;
-
-    public ProductService(
-        IProductRepository productRepository)
+    private readonly ICacheService _cacheService;
+    public ProductService(IProductRepository productRepository, ICacheService cacheService)
     {
         _productRepository = productRepository;
+        _cacheService = cacheService;
     }
 
-    public async Task<ProductResponseDto> CreateAsync(
-        CreateProductRequestDto request)
+    public async Task<ProductResponseDto> CreateAsync(CreateProductRequestDto request)
     {
         var product = new Product
         {
@@ -30,6 +29,8 @@ public class ProductService : IProductService
         await _productRepository.AddAsync(product);
 
         await _productRepository.SaveChangesAsync();
+
+        await _cacheService.RemoveByPrefixAsync("products:");
 
         return new ProductResponseDto
         {
@@ -63,6 +64,8 @@ public class ProductService : IProductService
 
         await _productRepository.SaveChangesAsync();
 
+        await _cacheService.RemoveByPrefixAsync("products:");
+
         return new ProductResponseDto
         {
             Id = product.Id,
@@ -86,6 +89,8 @@ public class ProductService : IProductService
         await _productRepository.DeleteAsync(product);
 
         await _productRepository.SaveChangesAsync();
+
+        await _cacheService.RemoveByPrefixAsync("products:");
 
         return true;
     }
@@ -112,6 +117,22 @@ public class ProductService : IProductService
 
     public async Task<PagedResponse<ProductResponseDto>> GetAllAsync(ProductQueryParameters parameters)
     {
+        var cacheKey =
+         $"products:" +
+         $"{parameters.PageNumber}:" +
+         $"{parameters.PageSize}:" +
+         $"{parameters.Search ?? "none"}:" +
+         $"{parameters.CategoryId?.ToString() ?? "none"}:" +
+         $"{parameters.SortBy ?? "none"}:" +
+         $"{parameters.Descending}";
+
+        var cachedProducts = await _cacheService.GetAsync<PagedResponse<ProductResponseDto>>(cacheKey);
+
+        if (cachedProducts is not null)
+        {
+            return cachedProducts;
+        }
+
         var (products, totalCount) =
             await _productRepository
                 .GetAllAsync(parameters);
@@ -127,12 +148,16 @@ public class ProductService : IProductService
                 CategoryName = product.Category.Name
             }).ToList();
 
-        return new PagedResponse<ProductResponseDto>
+      
+
+        var response= new PagedResponse<ProductResponseDto>
         {
             Items = items,
             PageNumber = parameters.PageNumber,
             PageSize = parameters.PageSize,
             TotalCount = totalCount
         };
+        await _cacheService.SetAsync(cacheKey, response, TimeSpan.FromMinutes(5));
+        return response;
     }
 }
