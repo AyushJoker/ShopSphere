@@ -49,7 +49,7 @@ public class ProductService : IProductService
 
         if (product == null)
         {
-            return null;
+            throw new NotFoundException("Product not found.");
         }
 
         product.Name = request.Name;
@@ -83,7 +83,7 @@ public class ProductService : IProductService
 
         if (product == null)
         {
-            return false;
+            throw new NotFoundException("Product not found.");
         }
 
         await _productRepository.DeleteAsync(product);

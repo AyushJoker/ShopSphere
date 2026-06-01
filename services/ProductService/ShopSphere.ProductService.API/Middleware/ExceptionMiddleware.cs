@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
-using ShopSphere.IdentityService.API.Middleware.Models;
+using ShopSphere.ProductService.API.Middleware.Models;
 
-namespace ShopSphere.IdentityService.API.Middleware;
+namespace ShopSphere.ProductService.API.Middleware;
 
 public class ExceptionMiddleware
 {
@@ -78,7 +78,7 @@ public class ExceptionMiddleware
         {
             Status = statusCode,
             Title = title,
-            Detail = statusCode == StatusCodes.Status500InternalServerError 
+            Detail = statusCode == StatusCodes.Status500InternalServerError
                                    ? "An unexpected error occurred." : exception.Message,
             TraceId = context.TraceIdentifier
         };

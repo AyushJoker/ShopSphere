@@ -41,7 +41,7 @@ public class AuthService : IAuthService
         if (existingUser != null)
         {
             _logger.LogWarning("Registration failed. User already exists: {Email}",  request.Email);
-            throw new Exception("User already exists");
+            throw new ConflictException("User already exists");
         }
 
         var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
@@ -76,7 +76,7 @@ public class AuthService : IAuthService
         if (user == null)
         {
             _logger.LogWarning("Invalid login attempt for email: {Email}",request.Email);
-            throw new Exception("Invalid credentials");
+             throw new UnauthorizedException("Invalid credentials");
         }
 
         var isPasswordValid =
@@ -87,7 +87,7 @@ public class AuthService : IAuthService
         if (!isPasswordValid)
         {
             _logger.LogWarning("Invalid login attempt for email: {Email}", request.Email);
-            throw new Exception("Invalid credentials");
+            throw new UnauthorizedException("Invalid credentials");
         }
 
         _logger.LogInformation("User logged in successfully: {Email}",user.Email);
@@ -120,7 +120,7 @@ public class AuthService : IAuthService
 
         if (user == null)
         {
-            throw new Exception("User not found");
+            throw new NotFoundException("User not found");
         }
 
         var userProfile = new UserProfileDto
@@ -160,17 +160,17 @@ public class AuthService : IAuthService
 
         if (existingRefreshToken == null)
         {
-            throw new Exception("Invalid refresh token");
+            throw new UnauthorizedException("Invalid refresh token");
         }
 
         if (existingRefreshToken.IsRevoked)
         {
-            throw new Exception("Refresh token revoked");
+            throw new UnauthorizedException("Refresh token revoked");
         }
 
         if (existingRefreshToken.ExpiryDate <= DateTime.UtcNow)
         {
-            throw new Exception("Refresh token expired");
+            throw new UnauthorizedException("Refresh token expired");
         }
 
         var user =
@@ -179,7 +179,7 @@ public class AuthService : IAuthService
 
         if (user == null)
         {
-            throw new Exception("User not found");
+            throw new NotFoundException("User not found");
         }
 
         // revoke old refresh token
@@ -240,7 +240,7 @@ public class AuthService : IAuthService
 
         if (user == null)
         {
-            throw new Exception("User not found");
+            throw new NotFoundException("User not found");
         }
 
         user.FirstName = request.FirstName;
