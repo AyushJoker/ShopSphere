@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShopSphere.ProductService.Application.DTOs;
 using ShopSphere.ProductService.Application.Interfaces;
 
@@ -16,6 +17,7 @@ public class ProductsController : ControllerBase
         _productService = productService;
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create(
         CreateProductRequestDto request)
@@ -50,6 +52,8 @@ public class ProductsController : ControllerBase
 
         return Ok(products);
     }
+
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(Guid id,UpdateProductRequestDto request)
     {
@@ -63,6 +67,8 @@ public class ProductsController : ControllerBase
 
         return Ok(updatedProduct);
     }
+
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {

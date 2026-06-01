@@ -34,6 +34,8 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<ICacheService, RedisCacheService>();
 
+        services.AddJwtAuthentication(configuration);
+
         return services;
     }
 }

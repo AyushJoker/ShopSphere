@@ -7,19 +7,21 @@ Enterprise-grade microservices-based e-commerce backend platform built using .NE
 # Overview
 
 ShopSphere is designed to simulate real-world enterprise backend architecture using:
-- Microservices
-- API Gateway
-- JWT Authentication
-- Redis Caching
-- Docker
-- Clean Architecture
-- Distributed system concepts
+
+* Microservices
+* API Gateway
+* JWT Authentication
+* Redis Caching
+* Docker
+* Clean Architecture
+* Distributed System Concepts
 
 The project focuses heavily on:
-- scalability
-- maintainability
-- security
-- enterprise architecture practices
+
+* Scalability
+* Maintainability
+* Security
+* Enterprise Architecture Practices
 
 ---
 
@@ -28,24 +30,34 @@ The project focuses heavily on:
 ## Identity Service
 
 Handles:
-- User Registration
-- User Login
-- JWT Authentication
-- Refresh Tokens
-- Role-based Authorization
-- User Profile APIs
-- Redis Caching
+
+* User Registration
+* User Login
+* JWT Authentication
+* Refresh Tokens
+* Refresh Token Rotation
+* Role-based Authorization
+* User Profile APIs
+* Redis Caching
+* API Rate Limiting
+
+---
 
 ## Product Service
 
 Handles:
-- Product CRUD
-- Category Management
-- Pagination
-- Filtering
-- Searching
-- Dynamic Sorting
-- FluentValidation
+
+* Product CRUD
+* Category Management
+* Pagination
+* Filtering
+* Searching
+* Dynamic Sorting
+* FluentValidation
+* Redis Caching
+* Cache Invalidation
+* JWT Authentication
+* Role-based Authorization
 
 ---
 
@@ -54,48 +66,66 @@ Handles:
 Built using YARP Reverse Proxy.
 
 Responsibilities:
-- Reverse proxy routing
-- Unified entry point
-- Service forwarding
-- Future centralized middleware
+
+* Reverse Proxy Routing
+* Unified Entry Point
+* Service Forwarding
+* Future Centralized Middleware
 
 ---
 
 # Tech Stack
 
 ## Backend
-- .NET 9
-- ASP.NET Core Web API
-- Entity Framework Core
-- FluentValidation
+
+* .NET 9
+* ASP.NET Core Web API
+* Entity Framework Core
+* FluentValidation
 
 ## Database
-- SQL Server
-- Redis Cache
+
+* SQL Server
+* Redis Cache
 
 ## Security
-- JWT Authentication
-- BCrypt Password Hashing
-- Refresh Tokens
+
+* JWT Authentication
+* BCrypt Password Hashing
+* Refresh Tokens
+
+### Product Service Authorization
+
+| Endpoint          | Access    |
+| ----------------- | --------- |
+| GET Products      | Anonymous |
+| GET Product By Id | Anonymous |
+| Create Product    | Admin     |
+| Update Product    | Admin     |
+| Delete Product    | Admin     |
 
 ## Infrastructure
-- Docker
-- Docker Compose
-- YARP API Gateway
+
+* Docker
+* Docker Compose
+* YARP API Gateway
 
 ## Logging
-- Serilog
+
+* Serilog
 
 ---
 
 # Architecture
+
 The project emphasizes production-style backend development patterns and scalable service separation.
 
 The project follows:
-- Microservices Architecture
-- Clean Architecture
-- Repository Pattern
-- Dependency Injection
+
+* Microservices Architecture
+* Clean Architecture
+* Repository Pattern
+* Dependency Injection
 
 ---
 
@@ -130,6 +160,7 @@ ShopSphere
 ├── architecture
 └── .github
 ```
+
 ---
 
 # Running the Project
@@ -157,8 +188,6 @@ docker compose up --build
 ```
 
 ---
-
-# Service URLs
 
 # Service URLs
 
@@ -191,46 +220,65 @@ http://localhost:7000/identity/swagger/index.html
 ```text
 http://localhost:7000/products/swagger/index.html
 ```
+
 ---
 
 # Current Features
 
-- JWT Authentication
-- API Rate Limiting
-- Refresh Tokens
-- Redis Caching
-- Dockerized Services
-- API Gateway
-- Global Exception Handling
-- Request Logging
-- Role-based Authorization
-- Product CRUD
-- Pagination
-- Searching
-- Filtering
-- Dynamic Sorting
-- FluentValidation
+## Identity Service
+
+* JWT Authentication
+* Refresh Tokens
+* Refresh Token Rotation
+* Role-based Authorization
+* Redis Caching
+* API Rate Limiting
+
+## Product Service
+
+* Product CRUD
+* Category Management
+* Pagination
+* Searching
+* Filtering
+* Dynamic Sorting
+* FluentValidation
+* Redis Caching
+* Cache Invalidation
+* JWT Authentication
+* Role-based Authorization
+
+## Platform
+
+* API Gateway (YARP)
+* Dockerized Services
+* Docker Compose
+* Clean Architecture
+* Repository Pattern
+* Dependency Injection
 
 ---
 
 # Upcoming Features
 
-- Order Service
-- Inventory Service
-- RabbitMQ
-- OpenTelemetry
-- Grafana
-- Kubernetes
-- CI/CD Pipelines
-- React Frontend
+* Order Service
+* Inventory Service
+* RabbitMQ
+* OpenTelemetry
+* Prometheus
+* Grafana
+* Kubernetes
+* CI/CD Pipelines
+* Angular Frontend
 
 ---
 
 # Learning Goals
 
 This project is focused on learning and implementing:
-- Enterprise backend architecture
-- Scalable microservices
-- Distributed systems
-- Cloud-native development
-- Production-grade backend practices
+
+* Enterprise Backend Architecture
+* Scalable Microservices
+* Distributed Systems
+* Cloud-native Development
+* Production-grade Backend Practices

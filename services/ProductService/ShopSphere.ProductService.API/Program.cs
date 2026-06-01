@@ -1,5 +1,4 @@
-
-using FluentValidation.AspNetCore; 
+using ShopSphere.ProductService.API.Configuration;
 using ShopSphere.ProductService.Application.DependencyInjection;
 using ShopSphere.ProductService.Infrastructure.DependencyInjection;
 
@@ -9,7 +8,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerDocumentation();
 
 builder.Services.AddApplication();
 
@@ -26,7 +25,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//app.UseAuthorization();
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapControllers();
 
