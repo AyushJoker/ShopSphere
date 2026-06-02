@@ -40,6 +40,9 @@ Handles:
 * User Profile APIs
 * Redis Caching
 * API Rate Limiting
+* Global Exception Handling
+* Structured Error Responses
+* Serilog Request Logging
 
 ---
 
@@ -58,6 +61,9 @@ Handles:
 * Cache Invalidation
 * JWT Authentication
 * Role-based Authorization
+* Global Exception Handling
+* Structured Error Responses
+* Serilog Request Logging
 
 ---
 
@@ -70,6 +76,7 @@ Responsibilities:
 * Reverse Proxy Routing
 * Unified Entry Point
 * Service Forwarding
+* Gateway Rate Limiting
 * Future Centralized Middleware
 
 ---
@@ -113,6 +120,8 @@ Responsibilities:
 ## Logging
 
 * Serilog
+* Request Logging
+* File Logging
 
 ---
 
@@ -175,15 +184,8 @@ git clone https://github.com/AyushJoker/ShopSphere.git
 
 ## Start Docker Containers
 
-Navigate to:
-
 ```bash
 cd docker
-```
-
-Run:
-
-```bash
 docker compose up --build
 ```
 
@@ -197,23 +199,17 @@ docker compose up --build
 http://localhost:5000/swagger/index.html
 ```
 
----
-
 ## Product Service Swagger
 
 ```text
 http://localhost:5001/swagger/index.html
 ```
 
----
-
 ## Gateway Identity Swagger
 
 ```text
 http://localhost:7000/identity/swagger/index.html
 ```
-
----
 
 ## Gateway Product Swagger
 
@@ -233,6 +229,9 @@ http://localhost:7000/products/swagger/index.html
 * Role-based Authorization
 * Redis Caching
 * API Rate Limiting
+* Global Exception Handling
+* Structured Error Responses
+* Serilog Logging
 
 ## Product Service
 
@@ -247,10 +246,20 @@ http://localhost:7000/products/swagger/index.html
 * Cache Invalidation
 * JWT Authentication
 * Role-based Authorization
+* Global Exception Handling
+* Structured Error Responses
+* Serilog Logging
+
+## API Gateway
+
+* YARP Reverse Proxy
+* Identity Service Routing
+* Product Service Routing
+* Swagger Access Through Gateway
+* Gateway Rate Limiting
 
 ## Platform
 
-* API Gateway (YARP)
 * Dockerized Services
 * Docker Compose
 * Clean Architecture

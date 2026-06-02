@@ -29,8 +29,15 @@ public static class ServiceCollectionExtensions
                 configuration["Redis:ConnectionString"];
         });
         services.AddSingleton<IConnectionMultiplexer>(_ =>
-                            ConnectionMultiplexer.Connect(
-                            configuration["Redis:ConnectionString"]!));
+        {
+            var options = ConfigurationOptions.Parse(
+                configuration["Redis:ConnectionString"]!);
+
+            options.AbortOnConnectFail = false;
+
+            return ConnectionMultiplexer.Connect(options);
+        });
+
 
         services.AddScoped<ICacheService, RedisCacheService>();
 

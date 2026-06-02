@@ -27,6 +27,7 @@
 ### Middleware & Logging
 
 * [x] Global Exception Middleware
+* [x] Structured Error Responses
 * [x] Request Logging
 * [x] Serilog File Logging
 
@@ -90,6 +91,15 @@
 
 ---
 
+### Middleware & Logging
+
+* [x] Global Exception Middleware
+* [x] Structured Error Responses
+* [x] Request Logging
+* [x] Serilog File Logging
+
+---
+
 ### Caching
 
 * [x] Redis Integration
@@ -124,6 +134,7 @@
 * [x] Product Service Routing
 * [x] Gateway Dockerization
 * [x] Swagger Access through Gateway
+* [x] Gateway Rate Limiting
 
 ---
 

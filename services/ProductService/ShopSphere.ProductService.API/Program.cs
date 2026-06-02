@@ -1,8 +1,13 @@
+using Serilog;
 using ShopSphere.ProductService.API.Configuration;
+using ShopSphere.ProductService.API.Configurations;
 using ShopSphere.ProductService.Application.DependencyInjection;
 using ShopSphere.ProductService.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure Serilog logging
+builder.AddSerilogLogging();
 
 builder.Services.AddControllers();
 
@@ -23,9 +28,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Log all incoming HTTP requests
+app.UseSerilogRequestLogging();
+
 app.UseGlobalExceptionMiddleware();
 
 app.UseHttpsRedirection();
+
 
 app.UseAuthentication();
 
