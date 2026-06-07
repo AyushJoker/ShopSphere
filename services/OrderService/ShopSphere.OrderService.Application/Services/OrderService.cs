@@ -9,10 +9,12 @@ public class OrderService : IOrderService
 {
     private readonly IOrderRepository _orderRepository;
 
-    public OrderService(
-        IOrderRepository orderRepository)
+    private readonly IProductServiceClient _productServiceClient;
+
+    public OrderService(IOrderRepository orderRepository,IProductServiceClient productServiceClient)
     {
         _orderRepository = orderRepository;
+        _productServiceClient = productServiceClient;
     }
 
     public async Task<OrderResponseDto> CreateOrderAsync(Guid userId,CreateOrderRequestDto request)
@@ -31,29 +33,37 @@ public class OrderService : IOrderService
 
             Status = OrderStatus.Pending
         };
+
         foreach (var item in request.Items)
         {
+            var product = await _productServiceClient.GetProductAsync(item.ProductId);
+
+            if (product is null)
+            {
+                throw new ProductNotFoundException(
+                    item.ProductId);
+            }
+
             var orderItem = new OrderItem
             {
                 Id = Guid.NewGuid(),
+
                 OrderId = order.Id,
 
-                ProductId = item.ProductId,
+                ProductId = product.Id,
 
-                ProductName = "Sample Product",
+                ProductName = product.Name,
 
-                UnitPrice = 100,
+                UnitPrice = product.Price,
 
                 Quantity = item.Quantity,
 
-                SubTotal = 100 * item.Quantity
+                SubTotal = product.Price * item.Quantity
             };
 
             order.Items.Add(orderItem);
         }
-
-        order.TotalAmount =
-            order.Items.Sum(x => x.SubTotal);
+        order.TotalAmount = order.Items.Sum(x => x.SubTotal);
 
         await _orderRepository.AddAsync(order);
 
@@ -65,12 +75,11 @@ public class OrderService : IOrderService
     }
     public async Task<OrderResponseDto?> GetByIdAsync(Guid id)
     {
-        var order =
-            await _orderRepository.GetByIdAsync(id);
+        var order = await _orderRepository.GetByIdAsync(id);
 
         if (order is null)
         {
-            return null;
+            throw new OrderNotFoundException(id);
         }
 
         return new OrderResponseDto
@@ -110,7 +119,7 @@ public class OrderService : IOrderService
 
         if (order is null)
         {
-            return false;
+            throw new OrderNotFoundException(orderId);
         }
 
         if (order.UserId != userId)

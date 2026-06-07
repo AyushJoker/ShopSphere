@@ -35,7 +35,6 @@ app.UseGlobalExceptionMiddleware();
 
 app.UseHttpsRedirection();
 
-
 app.UseAuthentication();
 
 app.UseAuthorization();

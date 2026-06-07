@@ -101,7 +101,7 @@ public class ProductService : IProductService
 
         if (product == null)
         {
-            return null;
+            throw new NotFoundException("Product not found");
         }
 
         return new ProductResponseDto

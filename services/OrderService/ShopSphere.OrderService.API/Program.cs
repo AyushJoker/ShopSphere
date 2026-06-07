@@ -1,8 +1,14 @@
-using ShopSphere.OrderService.Infrastructure.DependencyInjection;
-using ShopSphere.OrderService.Application.DependencyInjection;
+using Serilog;
 using ShopSphere.OrderService.API.Configuration;
+using ShopSphere.OrderService.API.Configurations;
+using ShopSphere.OrderService.Application.DependencyInjection;
+using ShopSphere.OrderService.Infrastructure.DependencyInjection;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure Serilog logging
+builder.AddSerilogLogging();
 
 builder.Services.AddControllers();
 
@@ -21,6 +27,11 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+// Log all incoming HTTP requests
+app.UseSerilogRequestLogging();
+
+
+app.UseGlobalExceptionMiddleware();
 
 app.UseAuthentication();
 

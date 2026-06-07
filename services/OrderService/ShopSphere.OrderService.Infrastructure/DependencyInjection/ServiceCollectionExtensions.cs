@@ -17,8 +17,15 @@ public static class ServiceCollectionExtensions
             options.UseSqlServer(
                 configuration.GetConnectionString(
                     "DefaultConnection")));
+
         services.AddScoped<IOrderRepository,OrderRepository>();
+
         services.AddJwtAuthentication(configuration);
+
+        services.AddHttpClient<IProductServiceClient,ProductServiceClient>(client =>{
+                                                client.BaseAddress =
+                                                    new Uri( configuration["Services:ProductService"]!);
+        });
 
         return services;
     }
