@@ -14,6 +14,7 @@ ShopSphere is designed to simulate real-world enterprise backend architecture us
 * Redis Caching
 * Docker
 * Clean Architecture
+* Service-to-Service Communication
 * Distributed System Concepts
 
 The project focuses heavily on:
@@ -67,6 +68,25 @@ Handles:
 
 ---
 
+## Order Service
+
+Handles:
+
+* Order Creation
+* Get Order By Id
+* Get User Orders
+* Order Cancellation
+* Order Number Generation
+* Order Status Management
+* Product Validation Before Order Creation
+* Service-to-Service Communication
+* FluentValidation
+* Global Exception Handling
+* Structured Error Responses
+* Serilog Request Logging
+
+---
+
 ## API Gateway
 
 Built using YARP Reverse Proxy.
@@ -111,6 +131,15 @@ Responsibilities:
 | Update Product    | Admin     |
 | Delete Product    | Admin     |
 
+### Order Service Authorization
+
+| Endpoint        | Access             |
+| --------------- | ------------------ |
+| Create Order    | Authenticated User |
+| Get My Orders   | Authenticated User |
+| Get Order By Id | Authenticated User |
+| Cancel Order    | Authenticated User |
+
 ## Infrastructure
 
 * Docker
@@ -135,6 +164,7 @@ The project follows:
 * Clean Architecture
 * Repository Pattern
 * Dependency Injection
+* Service-to-Service Communication
 
 ---
 
@@ -160,6 +190,13 @@ ShopSphere
 │   │   ├── ShopSphere.ProductService.Application
 │   │   ├── ShopSphere.ProductService.Domain
 │   │   └── ShopSphere.ProductService.Infrastructure
+│   │
+│   ├── OrderService
+│   │   ├── ShopSphere.OrderService.sln
+│   │   ├── ShopSphere.OrderService.API
+│   │   ├── ShopSphere.OrderService.Application
+│   │   ├── ShopSphere.OrderService.Domain
+│   │   └── ShopSphere.OrderService.Infrastructure
 │   │
 │   └── ShopSphere.ApiGateway
 │
@@ -203,6 +240,12 @@ http://localhost:5000/swagger/index.html
 
 ```text
 http://localhost:5001/swagger/index.html
+```
+
+## Order Service Swagger
+
+```text
+http://localhost:5002/swagger/index.html
 ```
 
 ## Gateway Identity Swagger
@@ -250,13 +293,27 @@ http://localhost:7000/products/swagger/index.html
 * Structured Error Responses
 * Serilog Logging
 
+## Order Service
+
+* Order Creation
+* Order Retrieval
+* User Order History
+* Order Cancellation
+* Order Number Generation
+* FluentValidation
+* Product Service Integration
+* Service-to-Service Communication
+* Global Exception Handling
+* Structured Error Responses
+* Serilog Logging
+
 ## API Gateway
 
 * YARP Reverse Proxy
 * Identity Service Routing
 * Product Service Routing
-* Swagger Access Through Gateway
 * Gateway Rate Limiting
+* Swagger Access Through Gateway
 
 ## Platform
 
@@ -265,20 +322,50 @@ http://localhost:7000/products/swagger/index.html
 * Clean Architecture
 * Repository Pattern
 * Dependency Injection
+* Service-to-Service Communication
 
 ---
 
 # Upcoming Features
 
-* Order Service
-* Inventory Service
+## Order Service
+
+* Gateway Integration
+* Partial Shipment Support
+* Order Line Status Tracking
+
+## Inventory Service
+
+* Stock Management
+* Inventory Reservation
+* Low Stock Alerts
+* Inventory Updates
+
+## Event-Driven Communication
+
 * RabbitMQ
+* Event Publishing
+* Event Consumption
+
+## Observability
+
 * OpenTelemetry
 * Prometheus
 * Grafana
+
+## DevOps
+
+* GitHub Actions CI/CD
 * Kubernetes
-* CI/CD Pipelines
+* Helm Charts
+
+## Frontend
+
 * Angular Frontend
+* Authentication Flow
+* Product UI
+* Cart UI
+* Order Management UI
 
 ---
 

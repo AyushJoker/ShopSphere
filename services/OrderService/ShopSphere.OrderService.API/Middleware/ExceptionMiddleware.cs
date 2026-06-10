@@ -21,6 +21,7 @@ public class ExceptionMiddleware
         }
         catch (ProductNotFoundException ex)
         {
+          
             context.Response.StatusCode = StatusCodes.Status404NotFound;
 
             await context.Response.WriteAsJsonAsync(

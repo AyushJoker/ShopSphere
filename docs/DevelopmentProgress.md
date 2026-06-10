@@ -124,6 +124,66 @@
 
 ---
 
+## Order Service
+
+### Core Features
+
+* [x] Order Creation
+* [x] Get Order By Id
+* [x] Get User Orders
+* [x] Cancel Order
+* [x] Order Number Generation
+* [x] Order Status Management
+
+---
+
+### Validation
+
+* [x] FluentValidation Integration
+* [x] Request Validation
+
+---
+
+### Service Communication
+
+* [x] Product Service Integration
+* [x] Product Validation Before Order Creation
+* [x] HTTP Client Integration
+
+---
+
+### Middleware & Logging
+
+* [x] Global Exception Middleware
+* [x] Structured Error Responses
+* [x] Custom Exceptions
+* [x] Serilog File Logging
+* [x] Request Logging
+
+---
+
+### Resiliency
+
+* [x] Product Not Found Handling
+* [x] Product Service Unavailable Handling
+
+---
+
+### Database
+
+* [x] Entity Framework Core
+* [x] SQL Server Integration
+* [x] Repository Pattern
+
+---
+
+### Dockerization
+
+* [x] Order Service Dockerfile
+* [x] Docker Compose Integration
+
+---
+
 ## API Gateway
 
 ### Gateway Features
@@ -151,16 +211,18 @@
 
 ## Order Service
 
-* [ ] Order CRUD APIs
-* [ ] Order Placement
-* [ ] Order History
-* [ ] Order Status Management
+* [ ] Gateway Integration
+* [ ] Order Update APIs
+* [ ] Partial Shipment Support
+* [ ] Order Line Status Tracking
 
 ---
 
 ## Inventory Service
 
+* [ ] Inventory Service Setup
 * [ ] Stock Management
+* [ ] Inventory Reservation
 * [ ] Low Stock Alerts
 * [ ] Inventory Updates
 
@@ -197,3 +259,4 @@
 * [ ] Authentication Flow
 * [ ] Product UI
 * [ ] Cart UI
+* [ ] Order Management UI

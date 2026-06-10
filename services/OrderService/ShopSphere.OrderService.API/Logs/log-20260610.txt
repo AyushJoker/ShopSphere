@@ -1,0 +1,29 @@
+2026-06-10 12:55:14.397 +05:30 [INF] User profile is available. Using 'C:\Users\ayush\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-06-10 12:55:15.232 +05:30 [INF] Now listening on: https://localhost:7001
+2026-06-10 12:55:15.236 +05:30 [INF] Now listening on: http://localhost:5239
+2026-06-10 12:55:15.556 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-10 12:55:15.562 +05:30 [INF] Hosting environment: Development
+2026-06-10 12:55:15.610 +05:30 [INF] Content root path: C:\Users\ayush\source\repos\ShopSphere\services\OrderService\ShopSphere.OrderService.API
+2026-06-10 12:55:34.965 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7001/swagger/index.html - null null
+2026-06-10 12:55:35.494 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7001/swagger/index.html - 200 null text/html;charset=utf-8 549.0268ms
+2026-06-10 12:55:35.538 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7001/swagger/swagger-ui.css - null null
+2026-06-10 12:55:35.538 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7001/swagger/swagger-ui-bundle.js - null null
+2026-06-10 12:55:35.538 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7001/swagger/swagger-ui-standalone-preset.js - null null
+2026-06-10 12:55:35.538 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - null null
+2026-06-10 12:55:35.614 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7001/_framework/aspnetcore-browser-refresh.js - 200 16539 application/javascript; charset=utf-8 75.7792ms
+2026-06-10 12:55:35.732 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7001/_vs/browserLink - null null
+2026-06-10 12:55:35.742 +05:30 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2026-06-10 12:55:35.742 +05:30 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2026-06-10 12:55:35.759 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7001/swagger/swagger-ui.css - 200 152034 text/css 221.0457ms
+2026-06-10 12:55:35.766 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7001/swagger/swagger-ui-standalone-preset.js - 200 230280 text/javascript 227.4738ms
+2026-06-10 12:55:35.792 +05:30 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2026-06-10 12:55:35.833 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7001/swagger/swagger-ui-bundle.js - 200 1456926 text/javascript 294.3004ms
+2026-06-10 12:55:35.918 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7001/_vs/browserLink - 200 null text/javascript; charset=UTF-8 185.4623ms
+2026-06-10 12:55:36.134 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7001/swagger/v1/swagger.json - null null
+2026-06-10 12:55:36.464 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7001/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 329.8198ms
+2026-06-10 12:55:47.336 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7001/api/Orders/my-orders - null null
+2026-06-10 12:55:47.871 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-10 12:55:47.892 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-10 12:55:47.904 +05:30 [INF] HTTP GET /api/Orders/my-orders responded 401 in 536.7460 ms
+2026-06-10 12:55:47.913 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7001/api/Orders/my-orders - 401 0 null 577.692ms
