@@ -105,6 +105,9 @@
 * [x] Redis Integration
 * [x] Product List Caching
 * [x] Cache Invalidation
+* [x] Cache-First Strategy
+* [x] Redis Key-Based Invalidation
+* [x] Prefix-Based Cache Invalidation
 
 ---
 
@@ -144,11 +147,19 @@
 
 ---
 
+### Security
+
+* [x] JWT Authentication
+* [x] Role-based Authorization
+
+---
+
 ### Service Communication
 
 * [x] Product Service Integration
 * [x] Product Validation Before Order Creation
 * [x] HTTP Client Integration
+* [x] Service-to-Service Communication
 
 ---
 
@@ -181,6 +192,60 @@
 
 * [x] Order Service Dockerfile
 * [x] Docker Compose Integration
+* [x] Gateway Integration
+
+---
+
+## Inventory Service
+
+### Core Features
+
+* [x] Inventory Service Setup
+* [x] Add Stock
+* [x] Get Inventory By Product
+* [x] Inventory CRUD Foundation
+
+---
+
+### Validation
+
+* [x] FluentValidation Integration
+* [x] Request Validation
+
+---
+
+### Security
+
+* [x] JWT Authentication
+* [x] Authorization Integration
+
+---
+
+### Middleware & Logging
+
+* [x] Global Exception Middleware
+* [x] Structured Error Responses
+* [x] Custom Exceptions
+* [x] Serilog File Logging
+* [x] Request Logging
+
+---
+
+### Database
+
+* [x] Entity Framework Core
+* [x] SQL Server Integration
+* [x] Repository Pattern
+* [x] Entity Configuration Pattern
+* [x] Inventory DbContext
+
+---
+
+### Dockerization
+
+* [x] Inventory Service Dockerfile
+* [x] Docker Compose Integration
+* [x] Gateway Integration
 
 ---
 
@@ -192,9 +257,39 @@
 * [x] Reverse Proxy Routing
 * [x] Identity Service Routing
 * [x] Product Service Routing
-* [x] Gateway Dockerization
+* [x] Order Service Routing
+* [x] Inventory Service Routing
 * [x] Swagger Access through Gateway
 * [x] Gateway Rate Limiting
+* [x] Gateway Dockerization
+
+---
+
+## Cross-Service Infrastructure
+
+### Containerization
+
+* [x] Multi-Service Docker Compose Setup
+* [x] Redis Container Integration
+* [x] Service Networking
+* [x] Environment Variable Configuration
+
+---
+
+### Security
+
+* [x] JWT Standardization Across Services
+* [x] Shared Authentication Pattern
+
+---
+
+### Architecture
+
+* [x] Clean Architecture
+* [x] Repository Pattern
+* [x] Dependency Injection Pattern
+* [x] Global Exception Handling Pattern
+* [x] Service-to-Service Communication Pattern
 
 ---
 
@@ -209,22 +304,22 @@
 
 # Upcoming Features
 
-## Order Service
+## Inventory Service
 
-* [ ] Gateway Integration
-* [ ] Order Update APIs
-* [ ] Partial Shipment Support
-* [ ] Order Line Status Tracking
+* [ ] Reserve Stock
+* [ ] Release Stock
+* [ ] Deduct Stock
+* [ ] Inventory Reservation Workflow
+* [ ] Low Stock Alerts
 
 ---
 
-## Inventory Service
+## Order Service
 
-* [ ] Inventory Service Setup
-* [ ] Stock Management
-* [ ] Inventory Reservation
-* [ ] Low Stock Alerts
-* [ ] Inventory Updates
+* [ ] Inventory Service Integration
+* [ ] Order Update APIs
+* [ ] Partial Shipment Support
+* [ ] Order Line Status Tracking
 
 ---
 
@@ -233,6 +328,9 @@
 * [ ] RabbitMQ Integration
 * [ ] Event Publishing
 * [ ] Event Consumption
+* [ ] Order Created Events
+* [ ] Inventory Reserved Events
+* [ ] Order Cancelled Events
 
 ---
 
@@ -242,14 +340,26 @@
 * [ ] OpenTelemetry
 * [ ] Prometheus
 * [ ] Grafana Dashboards
+* [ ] Distributed Tracing
 
 ---
 
 ## DevOps
 
 * [ ] GitHub Actions CI/CD
+* [ ] Docker Registry Publishing
 * [ ] Kubernetes Deployment
 * [ ] Helm Charts
+
+---
+
+## E-Commerce Features
+
+* [ ] Cart Service
+* [ ] Payment Service
+* [ ] Coupon Service
+* [ ] Notification Service
+* [ ] Review & Rating Service
 
 ---
 
@@ -258,5 +368,7 @@
 * [ ] Angular Frontend
 * [ ] Authentication Flow
 * [ ] Product UI
+* [ ] Inventory UI
 * [ ] Cart UI
 * [ ] Order Management UI
+* [ ] Admin Dashboard

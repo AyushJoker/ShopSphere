@@ -1,28 +1,52 @@
 ﻿# ShopSphere
 
-Enterprise-grade microservices-based e-commerce backend platform built using .NET 9 and Clean Architecture principles.
+Enterprise-grade microservices-based e-commerce backend platform built with .NET 9, Clean Architecture, Docker, Redis, and API Gateway patterns.
 
 ---
 
 # Overview
 
-ShopSphere is designed to simulate real-world enterprise backend architecture using:
+ShopSphere is a distributed e-commerce backend platform designed to simulate real-world enterprise architecture and backend engineering practices.
 
-* Microservices
-* API Gateway
-* JWT Authentication
-* Redis Caching
-* Docker
+The project focuses on:
+
+* Microservices Architecture
 * Clean Architecture
+* API Gateway Pattern
+* JWT Authentication & Authorization
+* Redis Caching
 * Service-to-Service Communication
-* Distributed System Concepts
+* Dockerized Deployment
+* Distributed System Design
+* Scalability & Maintainability
 
-The project focuses heavily on:
+---
 
-* Scalability
-* Maintainability
-* Security
-* Enterprise Architecture Practices
+# System Architecture
+
+```text
+Client
+   │
+   ▼
+API Gateway (YARP)
+   │
+   ├── Identity Service
+   ├── Product Service
+   ├── Order Service
+   └── Inventory Service
+
+Redis
+│
+├── Identity Service Cache
+└── Product Service Cache
+
+SQL Server
+│
+├── Identity Database
+├── Product Database
+├── Order Database
+└── Inventory Database
+```
 
 ---
 
@@ -30,7 +54,7 @@ The project focuses heavily on:
 
 ## Identity Service
 
-Handles:
+Responsible for:
 
 * User Registration
 * User Login
@@ -43,47 +67,64 @@ Handles:
 * API Rate Limiting
 * Global Exception Handling
 * Structured Error Responses
-* Serilog Request Logging
+* Serilog Logging
 
 ---
 
 ## Product Service
 
-Handles:
+Responsible for:
 
 * Product CRUD
 * Category Management
 * Pagination
-* Filtering
 * Searching
+* Filtering
 * Dynamic Sorting
-* FluentValidation
 * Redis Caching
 * Cache Invalidation
+* FluentValidation
 * JWT Authentication
 * Role-based Authorization
 * Global Exception Handling
 * Structured Error Responses
-* Serilog Request Logging
+* Serilog Logging
 
 ---
 
 ## Order Service
 
-Handles:
+Responsible for:
 
 * Order Creation
-* Get Order By Id
-* Get User Orders
+* Order Retrieval
+* User Order History
 * Order Cancellation
 * Order Number Generation
 * Order Status Management
 * Product Validation Before Order Creation
+* Product Service Integration
 * Service-to-Service Communication
 * FluentValidation
 * Global Exception Handling
 * Structured Error Responses
-* Serilog Request Logging
+* Serilog Logging
+
+---
+
+## Inventory Service
+
+Responsible for:
+
+* Inventory Tracking
+* Add Stock
+* Get Inventory By Product
+* Inventory Management Foundation
+* FluentValidation
+* JWT Authentication
+* Global Exception Handling
+* Structured Error Responses
+* Serilog Logging
 
 ---
 
@@ -93,11 +134,15 @@ Built using YARP Reverse Proxy.
 
 Responsibilities:
 
-* Reverse Proxy Routing
 * Unified Entry Point
-* Service Forwarding
+* Reverse Proxy Routing
+* Identity Service Routing
+* Product Service Routing
+* Order Service Routing
+* Inventory Service Routing
 * Gateway Rate Limiting
-* Future Centralized Middleware
+* Service Forwarding
+* Future Cross-Cutting Concerns
 
 ---
 
@@ -113,32 +158,15 @@ Responsibilities:
 ## Database
 
 * SQL Server
-* Redis Cache
+* Redis
 
 ## Security
 
 * JWT Authentication
+* JWT Authorization
 * BCrypt Password Hashing
 * Refresh Tokens
-
-### Product Service Authorization
-
-| Endpoint          | Access    |
-| ----------------- | --------- |
-| GET Products      | Anonymous |
-| GET Product By Id | Anonymous |
-| Create Product    | Admin     |
-| Update Product    | Admin     |
-| Delete Product    | Admin     |
-
-### Order Service Authorization
-
-| Endpoint        | Access             |
-| --------------- | ------------------ |
-| Create Order    | Authenticated User |
-| Get My Orders   | Authenticated User |
-| Get Order By Id | Authenticated User |
-| Cancel Order    | Authenticated User |
+* Refresh Token Rotation
 
 ## Infrastructure
 
@@ -150,13 +178,11 @@ Responsibilities:
 
 * Serilog
 * Request Logging
-* File Logging
+* Structured Logging
 
 ---
 
-# Architecture
-
-The project emphasizes production-style backend development patterns and scalable service separation.
+# Architecture Patterns
 
 The project follows:
 
@@ -165,6 +191,9 @@ The project follows:
 * Repository Pattern
 * Dependency Injection
 * Service-to-Service Communication
+* API Gateway Pattern
+* Cache-Aside Pattern
+* Global Exception Handling Pattern
 
 ---
 
@@ -178,25 +207,12 @@ ShopSphere
 ├── services
 │   │
 │   ├── IdentityService
-│   │   ├── ShopSphere.IdentityService.sln
-│   │   ├── ShopSphere.IdentityService.API
-│   │   ├── ShopSphere.IdentityService.Application
-│   │   ├── ShopSphere.IdentityService.Domain
-│   │   └── ShopSphere.IdentityService.Infrastructure
 │   │
 │   ├── ProductService
-│   │   ├── ShopSphere.ProductService.sln
-│   │   ├── ShopSphere.ProductService.API
-│   │   ├── ShopSphere.ProductService.Application
-│   │   ├── ShopSphere.ProductService.Domain
-│   │   └── ShopSphere.ProductService.Infrastructure
 │   │
 │   ├── OrderService
-│   │   ├── ShopSphere.OrderService.sln
-│   │   ├── ShopSphere.OrderService.API
-│   │   ├── ShopSphere.OrderService.Application
-│   │   ├── ShopSphere.OrderService.Domain
-│   │   └── ShopSphere.OrderService.Infrastructure
+│   │
+│   ├── InventoryService
 │   │
 │   └── ShopSphere.ApiGateway
 │
@@ -217,153 +233,168 @@ ShopSphere
 git clone https://github.com/AyushJoker/ShopSphere.git
 ```
 
----
-
-## Start Docker Containers
+## Start Services
 
 ```bash
 cd docker
+
 docker compose up --build
+```
+
+## Stop Services
+
+```bash
+docker compose down
 ```
 
 ---
 
 # Service URLs
 
-## Identity Service Swagger
+## Identity Service
 
 ```text
 http://localhost:5000/swagger/index.html
 ```
 
-## Product Service Swagger
+## Product Service
 
 ```text
 http://localhost:5001/swagger/index.html
 ```
 
-## Order Service Swagger
+## Order Service
 
 ```text
 http://localhost:5002/swagger/index.html
 ```
 
-## Gateway Identity Swagger
+## Inventory Service
+
+```text
+http://localhost:5003/swagger/index.html
+```
+
+---
+
+# Gateway URLs
+
+## Identity
 
 ```text
 http://localhost:7000/identity/swagger/index.html
 ```
 
-## Gateway Product Swagger
+## Products
 
 ```text
 http://localhost:7000/products/swagger/index.html
 ```
 
+## Orders
+
+```text
+http://localhost:7000/orders/swagger/index.html
+```
+
+## Inventory
+
+```text
+http://localhost:7000/inventory/swagger/index.html
+```
+
 ---
 
-# Current Features
+# Implemented Features
 
-## Identity Service
+## Authentication & Security
 
 * JWT Authentication
 * Refresh Tokens
 * Refresh Token Rotation
 * Role-based Authorization
-* Redis Caching
+* BCrypt Password Hashing
 * API Rate Limiting
-* Global Exception Handling
-* Structured Error Responses
-* Serilog Logging
 
-## Product Service
+## Caching
 
-* Product CRUD
-* Category Management
-* Pagination
-* Searching
-* Filtering
-* Dynamic Sorting
+* Redis Integration
+* User Profile Caching
+* Product List Caching
+* Cache Invalidation Strategies
+
+## Validation
+
 * FluentValidation
-* Redis Caching
-* Cache Invalidation
-* JWT Authentication
-* Role-based Authorization
+* Request Validation
+
+## Logging & Monitoring
+
+* Serilog Logging
+* Request Logging
 * Global Exception Handling
 * Structured Error Responses
-* Serilog Logging
 
-## Order Service
+## Service Communication
 
-* Order Creation
-* Order Retrieval
-* User Order History
-* Order Cancellation
-* Order Number Generation
-* FluentValidation
-* Product Service Integration
-* Service-to-Service Communication
-* Global Exception Handling
-* Structured Error Responses
-* Serilog Logging
+* Order → Product Service Communication
+* HttpClient Integration
+* Product Validation Before Order Creation
 
-## API Gateway
-
-* YARP Reverse Proxy
-* Identity Service Routing
-* Product Service Routing
-* Gateway Rate Limiting
-* Swagger Access Through Gateway
-
-## Platform
+## Infrastructure
 
 * Dockerized Services
-* Docker Compose
-* Clean Architecture
-* Repository Pattern
-* Dependency Injection
-* Service-to-Service Communication
+* Docker Compose Orchestration
+* API Gateway Routing
+* Redis Integration
 
 ---
 
 # Upcoming Features
 
-## Order Service
+## Inventory Management
 
-* Gateway Integration
-* Partial Shipment Support
-* Order Line Status Tracking
-
-## Inventory Service
-
-* Stock Management
-* Inventory Reservation
+* Stock Reservation
+* Stock Release
+* Stock Deduction
+* Inventory Reservation Workflow
 * Low Stock Alerts
-* Inventory Updates
 
-## Event-Driven Communication
+## Event-Driven Architecture
 
-* RabbitMQ
+* RabbitMQ Integration
 * Event Publishing
 * Event Consumption
+* Inventory Events
+* Order Events
 
 ## Observability
 
 * OpenTelemetry
 * Prometheus
 * Grafana
+* Distributed Tracing
 
 ## DevOps
 
 * GitHub Actions CI/CD
-* Kubernetes
+* Container Registry Publishing
+* Kubernetes Deployment
 * Helm Charts
+
+## Future Services
+
+* Cart Service
+* Payment Service
+* Notification Service
+* Review Service
 
 ## Frontend
 
 * Angular Frontend
 * Authentication Flow
-* Product UI
+* Product Management UI
+* Inventory Management UI
 * Cart UI
 * Order Management UI
 
@@ -371,10 +402,13 @@ http://localhost:7000/products/swagger/index.html
 
 # Learning Goals
 
-This project is focused on learning and implementing:
+This project is focused on implementing real-world backend engineering concepts including:
 
 * Enterprise Backend Architecture
 * Scalable Microservices
 * Distributed Systems
-* Cloud-native Development
-* Production-grade Backend Practices
+* Cloud-Native Development
+* API Gateway Design
+* Service-to-Service Communication
+* Caching Strategies
+* Production-Ready Backend Practices

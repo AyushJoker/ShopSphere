@@ -15,11 +15,27 @@ services:
       - ReverseProxy__Clusters__identityCluster__Destinations__destination1__Address=http://shopsphere-api:8080/
       - ReverseProxy__Clusters__productCluster__Destinations__destination1__Address=http://shopsphere-product-api:8080/
       - ReverseProxy__Clusters__orderCluster__Destinations__destination1__Address=http://shopsphere-order-api:8080/
+      - ReverseProxy__Clusters__inventoryCluster__Destinations__destination1__Address=http://shopsphere-inventory-api:8080/
 
     depends_on:
       - shopsphere-api
       - shopsphere-product-api
       - shopsphere-order-api
+      - shopsphere-inventory-api
+
+  shopsphere-inventory-api:
+    container_name: shopsphere-inventory-api
+
+    build:
+      context: ../services/InventoryService
+      dockerfile: ShopSphere.InventoryService.API/Dockerfile
+
+    ports:
+      - "5003:8080"
+
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=host.docker.internal,1433;Database=ShopSphereInventoryDb;User Id=sa;Password=YourStrong@123;TrustServerCertificate=True
 
   shopsphere-order-api:
     container_name: shopsphere-order-api
