@@ -33,7 +33,12 @@ public class OrderRepository : IOrderRepository
             .OrderByDescending(x => x.OrderDate)
             .ToListAsync();
     }
+    public Task UpdateAsync(Order order)
+    {
+        _context.Orders.Update(order);
 
+        return Task.CompletedTask;
+    }
     public async Task SaveChangesAsync()
     {
         await _context.SaveChangesAsync();

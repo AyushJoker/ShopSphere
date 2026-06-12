@@ -67,7 +67,7 @@ public class InventoryService : IInventoryService
 
         if (inventory is null)
         {
-            return null;
+            throw new NotFoundException($"Inventory not found for product {productId}");
         }
 
         return new InventoryResponseDto
@@ -77,6 +77,104 @@ public class InventoryService : IInventoryService
                 inventory.AvailableQuantity,
             ReservedQuantity =
                 inventory.ReservedQuantity
+        };
+    }
+    public async Task<InventoryResponseDto> ReserveStockAsync(ReserveStockRequestDto request)
+    {
+        var inventory =
+            await _inventoryRepository
+                .GetByProductIdAsync(request.ProductId);
+
+        if (inventory is null)
+        {
+            throw new NotFoundException(
+                $"Inventory not found for product {request.ProductId}");
+        }
+
+        if (inventory.AvailableQuantity < request.Quantity)
+        {
+            throw new BadRequestException(
+                "Insufficient stock available");
+        }
+
+        inventory.AvailableQuantity -= request.Quantity;
+        inventory.ReservedQuantity += request.Quantity;
+        inventory.LastUpdated = DateTime.UtcNow;
+
+        await _inventoryRepository.UpdateAsync(inventory);
+
+        await _inventoryRepository.SaveChangesAsync();
+
+        return new InventoryResponseDto
+        {
+            ProductId = inventory.ProductId,
+            AvailableQuantity = inventory.AvailableQuantity,
+            ReservedQuantity = inventory.ReservedQuantity
+        };
+    }
+    public async Task<InventoryResponseDto> ReleaseStockAsync(ReleaseStockRequestDto request)
+    {
+        var inventory =
+            await _inventoryRepository
+                .GetByProductIdAsync(request.ProductId);
+
+        if (inventory is null)
+        {
+            throw new NotFoundException(
+                $"Inventory not found for product {request.ProductId}");
+        }
+
+        if (inventory.ReservedQuantity < request.Quantity)
+        {
+            throw new BadRequestException(
+                "Cannot release more than reserved quantity");
+        }
+
+        inventory.AvailableQuantity += request.Quantity;
+        inventory.ReservedQuantity -= request.Quantity;
+        inventory.LastUpdated = DateTime.UtcNow;
+
+        await _inventoryRepository.UpdateAsync(inventory);
+
+        await _inventoryRepository.SaveChangesAsync();
+
+        return new InventoryResponseDto
+        {
+            ProductId = inventory.ProductId,
+            AvailableQuantity = inventory.AvailableQuantity,
+            ReservedQuantity = inventory.ReservedQuantity
+        };
+    }
+    public async Task<InventoryResponseDto> DeductReservedStockAsync(DeductStockRequestDto request)
+    {
+        var inventory =
+            await _inventoryRepository
+                .GetByProductIdAsync(request.ProductId);
+
+        if (inventory is null)
+        {
+            throw new NotFoundException(
+                $"Inventory not found for product {request.ProductId}");
+        }
+
+        if (inventory.ReservedQuantity < request.Quantity)
+        {
+            throw new BadRequestException(
+                "Reserved quantity is insufficient");
+        }
+
+        inventory.ReservedQuantity -= request.Quantity;
+        inventory.LastUpdated = DateTime.UtcNow;
+
+        await _inventoryRepository.UpdateAsync(inventory);
+
+        await _inventoryRepository.SaveChangesAsync();
+
+        return new InventoryResponseDto
+        {
+            ProductId = inventory.ProductId,
+            AvailableQuantity = inventory.AvailableQuantity,
+            ReservedQuantity = inventory.ReservedQuantity
         };
     }
 }

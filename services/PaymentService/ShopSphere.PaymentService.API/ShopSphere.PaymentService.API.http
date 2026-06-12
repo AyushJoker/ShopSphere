@@ -1,0 +1,6 @@
+@ShopSphere.PaymentService.API_HostAddress = http://localhost:5240
+
+GET {{ShopSphere.PaymentService.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

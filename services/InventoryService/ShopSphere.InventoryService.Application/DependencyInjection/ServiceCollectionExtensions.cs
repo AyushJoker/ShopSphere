@@ -12,12 +12,12 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services)
     {
         services.AddScoped<IInventoryService,Services.InventoryService>();
-        // services.AddFluentValidation();
+       
        services.AddFluentValidationAutoValidation();
 
-      // services.AddFluentValidationClientsideAdapters();
-        services.AddValidatorsFromAssemblyContaining<AddStockRequestDtoValidator>();
-       
+        services.AddFluentValidationAutoValidation();
+
+        services.AddValidatorsFromAssembly(typeof(ServiceCollectionExtensions).Assembly);
         return services;
     }
 }

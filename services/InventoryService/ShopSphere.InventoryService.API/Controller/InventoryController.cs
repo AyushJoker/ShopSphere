@@ -42,4 +42,39 @@ public class InventoryController : ControllerBase
 
         return Ok(inventory);
     }
+
+    [Authorize]
+    [HttpPost("reserve")]
+    public async Task<IActionResult> Reserve(ReserveStockRequestDto request)
+    {
+        var response =
+            await _inventoryService
+                .ReserveStockAsync(request);
+
+        return Ok(response);
+    }
+
+    [Authorize]
+    [HttpPost("release")]
+    public async Task<IActionResult> Release(
+    ReleaseStockRequestDto request)
+    {
+        var response =
+            await _inventoryService
+                .ReleaseStockAsync(request);
+
+        return Ok(response);
+    }
+
+    [Authorize]
+    [HttpPost("deduct")]
+    public async Task<IActionResult> Deduct(
+    DeductStockRequestDto request)
+    {
+        var response =
+            await _inventoryService
+                .DeductReservedStockAsync(request);
+
+        return Ok(response);
+    }
 }
