@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
-using Serilog;
+﻿
+using Microsoft.Extensions.Logging;
+using ShopSphere.PaymentService.Application.Interfaces;
 using ShopSphere.PaymentService.Domain.Entities;
 using ShopSphere.PaymentService.Domain.Enums;
 
+namespace ShopSphere.PaymentService.Application.Services;
 public class PaymentService : IPaymentService
 {
     private readonly IPaymentRepository
@@ -29,7 +31,9 @@ public class PaymentService : IPaymentService
 
             Amount = request.Amount,
 
-            Status = PaymentStatus.Success,
+            Status = request.SimulateFailure
+    ? PaymentStatus.Failed
+    : PaymentStatus.Success,
 
             CreatedAt = DateTime.UtcNow
         };

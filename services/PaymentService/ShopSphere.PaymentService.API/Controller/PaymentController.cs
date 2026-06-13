@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ShopSphere.PaymentService.Application.Interfaces;
 
 namespace ShopSphere.PaymentService.API.Controller
 {
@@ -13,7 +14,7 @@ namespace ShopSphere.PaymentService.API.Controller
         {
             _paymentService = paymentService;
         }
-        [Authorize]
+      
         [HttpPost]
         public async Task<IActionResult> Create(CreatePaymentRequestDto request)
         {

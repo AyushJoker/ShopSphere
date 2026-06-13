@@ -1,4 +1,5 @@
-﻿public interface IPaymentService
+﻿namespace ShopSphere.PaymentService.Application.Interfaces;
+public interface IPaymentService
 {
     Task<PaymentResponseDto>
         CreatePaymentAsync(
