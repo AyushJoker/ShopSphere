@@ -5,6 +5,7 @@ using ShopSphere.OrderService.Application.Interfaces;
 using ShopSphere.OrderService.Infrastructure.Data;
 using ShopSphere.OrderService.Infrastructure.Http;
 using ShopSphere.OrderService.Infrastructure.Repositories;
+using ShopSphere.OrderService.Infrastructure.Services;
 
 namespace ShopSphere.OrderService.Infrastructure.DependencyInjection;
 
@@ -25,25 +26,24 @@ public static class ServiceCollectionExtensions
 
         services.AddJwtAuthentication(configuration);
 
-        //services.AddHttpClient<IProductServiceClient,ProductServiceClient>(client =>{
-        //                                        client.BaseAddress =
-        //                                            new Uri( configuration["Services:ProductService"]!);
-        //});
+        
         services.AddHttpClient<IProductServiceClient, ProductServiceClient>(client => {
             client.BaseAddress =
                 new Uri(configuration["Services:ProductService"]!);
         }).AddHttpMessageHandler<JwtForwardingHandler>();
 
-        //services.AddHttpClient<IInventoryServiceClient, InventoryServiceClient>(client => {
-        //    client.BaseAddress =
-        //        new Uri(configuration["Services:InventoryService"]!);
-        //});
-
+      
         services.AddHttpClient<IInventoryServiceClient,InventoryServiceClient>(client =>
                 {
                     client.BaseAddress =
                         new Uri(
                             configuration["Services:InventoryService"]!);
+                }).AddHttpMessageHandler<JwtForwardingHandler>();
+        services.AddHttpClient<IPaymentServiceClient,PaymentServiceClient>(client =>
+                {
+                    client.BaseAddress =
+                        new Uri(
+                            configuration["Services:PaymentService"]!);
                 }).AddHttpMessageHandler<JwtForwardingHandler>();
 
         return services;

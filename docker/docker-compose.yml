@@ -16,12 +16,27 @@ services:
       - ReverseProxy__Clusters__productCluster__Destinations__destination1__Address=http://shopsphere-product-api:8080/
       - ReverseProxy__Clusters__orderCluster__Destinations__destination1__Address=http://shopsphere-order-api:8080/
       - ReverseProxy__Clusters__inventoryCluster__Destinations__destination1__Address=http://shopsphere-inventory-api:8080/
-
+      - ReverseProxy__Clusters__paymentCluster__Destinations__destination1__Address=http://shopsphere-payment-api:8080/
     depends_on:
       - shopsphere-api
       - shopsphere-product-api
       - shopsphere-order-api
       - shopsphere-inventory-api
+      - shopsphere-payment-api
+
+  shopsphere-payment-api:
+    container_name: shopsphere-payment-api
+
+    build:
+      context: ../services/PaymentService
+      dockerfile: ShopSphere.PaymentService.API/Dockerfile
+
+    ports:
+      - "5004:8080"
+
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=host.docker.internal,1433;Database=ShopSpherePaymentDb;User Id=sa;Password=YourStrong@123;TrustServerCertificate=True
 
   shopsphere-inventory-api:
     container_name: shopsphere-inventory-api
@@ -51,6 +66,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=host.docker.internal,1433;Database=ShopSphereOrderDb;User Id=sa;Password=YourStrong@123;TrustServerCertificate=True
       - Services__ProductService=http://shopsphere-product-api:8080/
+      - Services__InventoryService=http://shopsphere-inventory-api:8080/
+      - Services__PaymentService=http://shopsphere-payment-api:8080/
 
     depends_on:
       - shopsphere-product-api

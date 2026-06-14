@@ -12,7 +12,7 @@ namespace ShopSphere.PaymentService.API.Configuration
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "ShopSphere Inventory API",
+                    Title = "ShopSphere Payments API",
                     Version = "v1"
                 });
 

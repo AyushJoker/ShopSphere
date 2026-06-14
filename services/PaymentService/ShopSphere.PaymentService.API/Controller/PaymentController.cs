@@ -14,7 +14,7 @@ namespace ShopSphere.PaymentService.API.Controller
         {
             _paymentService = paymentService;
         }
-      
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CreatePaymentRequestDto request)
         {

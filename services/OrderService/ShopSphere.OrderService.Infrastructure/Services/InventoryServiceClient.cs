@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using ShopSphere.OrderService.Application.DTOs;
+using ShopSphere.OrderService.Application.DTOs.Inventory;
 using ShopSphere.OrderService.Application.Interfaces;
 
 public class InventoryServiceClient

@@ -75,4 +75,16 @@ public class OrdersController : ControllerBase
 
         return NoContent();
     }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPut("{id}/status")]
+    public async Task<IActionResult> UpdateStatus(Guid id,UpdateOrderStatusRequestDto request)
+    {
+        await _orderService
+            .UpdateOrderStatusAsync(
+                id,
+                request.Status);
+
+        return NoContent();
+    }
 }

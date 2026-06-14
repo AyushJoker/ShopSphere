@@ -1,4 +1,4 @@
-﻿namespace ShopSphere.OrderService.Application.DTOs;
+﻿namespace ShopSphere.OrderService.Application.DTOs.Inventory;
 
 public class ReserveStockRequestDto
 {
